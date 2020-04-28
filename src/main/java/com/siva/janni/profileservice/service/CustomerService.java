@@ -2,6 +2,8 @@ package com.siva.janni.profileservice.service;
 
 import com.siva.janni.model.Customer;
 import com.siva.janni.profileservice.repo.CustomerRepo;
+import javassist.NotFoundException;
+import org.assertj.core.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +24,11 @@ public class CustomerService {
         return customerRepo.findAll();
     }
 
-    public Optional<Customer> findCustomerById(int id) {
-        return customerRepo.findById(id);
+    public Customer findCustomerById(int id) throws NotFoundException {
+
+        return customerRepo.findById(id)
+                .map(c -> {return c;})
+                .orElseThrow(() -> new NotFoundException("Customer Not Found With Id " + id));
     }
 
     public void deleteCustomers() {

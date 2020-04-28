@@ -1,5 +1,6 @@
 spring:
   application:
     name: profile
-
-
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
